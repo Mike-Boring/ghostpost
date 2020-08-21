@@ -16,7 +16,7 @@ def index(request):
     return render(request, "index.html", {"all_posts": all_posts})
 
 
-def sorted(request):
+def sortedposts(request):
     # used for reference https://stackoverflow.com/questions/47757857/ordering-a-django-queryset-by-sum-of-two-or-more-fields
     all_sorted = BoastsRoasts.objects.\
         annotate(total_count=Sum(
@@ -80,7 +80,6 @@ def addpost(request):
     return render(request, "addpost.html", {"form": form, "all_posts": all_posts})
 
 
-# def post_detail(request, post_id):
-#     my_post = Boasts.objects.filter(id=recipe_id).first()
-#     selected_author = Author.objects.filter(id=recipe_id).first()
-#     return render(request, "recipe_detail.html", {"recipe": my_recipe, "author": selected_author})
+def post_detail(request, post_id):
+    my_post = BoastsRoasts.objects.filter(id=post_id).first()
+    return render(request, "post_detail.html", {"post": my_post})
