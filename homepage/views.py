@@ -73,7 +73,7 @@ def addpost(request):
                     post_text=data.get('post_text'),
                 )
             # breakpoint()
-            return HttpResponseRedirect(reverse("homepage"))
+            return HttpResponseRedirect(f"/post/{new_post.id}")
 
     form = AddPostForm()
     all_posts = BoastsRoasts.objects.all()

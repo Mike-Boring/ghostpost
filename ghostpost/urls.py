@@ -26,6 +26,6 @@ urlpatterns = [
     path('upvote/<int:upvote_id>', upvote, name="upvote"),
     path('downvote/<int:downvote_id>', downvote, name="downvote"),
     path('addpost/', addpost, name="addpost"),
-    path('post/<int:post_id>/', post_detail, name="postdetail"),
+    path('post/<int:post_id>', post_detail, name="postdetail"),
     path('admin/', admin.site.urls),
 ]
