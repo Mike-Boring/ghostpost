@@ -1,20 +1,29 @@
-from django.shortcuts import render, HttpResponseRedirect, reverse
+from django.shortcuts import render, HttpResponseRedirect, reverse, redirect
 
 from homepage.models import Boasts
 
 from homepage.forms import AddPostForm
+
+from django.db.models import F, Sum
+
 
 # Create your views here.
 
 
 def index(request):
     all_posts = Boasts.objects.order_by("submission_time").reverse()
-    vote_count = 10
-    return render(request, "index.html", {"all_posts": all_posts, "votes": vote_count})
+    # breakpoint()
+    return render(request, "index.html", {"all_posts": all_posts})
 
 
 def sorted(request):
-    all_sorted = Boasts.objects.all()
+    # used for reference https://stackoverflow.com/questions/47757857/ordering-a-django-queryset-by-sum-of-two-or-more-fields
+    all_sorted = Boasts.objects.\
+        annotate(total_count=Sum(
+            F('up_votes') + F('down_votes'))
+        ).\
+        order_by('total_count').reverse()
+
     return render(request, "sorted.html", {"sorted": all_sorted})
 
 
@@ -30,6 +39,22 @@ def roasts(request):
         boasts=False).order_by("submission_time").reverse()
     vote_count = 10
     return render(request, "roasts.html", {"roasts": all_roasts, "votes": vote_count})
+
+# got a little help on upvote and downvote from studyhall, Sohail.
+
+
+def upvote(request, upvote_id):
+    current_post = Boasts.objects.get(id=upvote_id)
+    current_post.up_votes = current_post.up_votes + 1
+    current_post.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def downvote(request, downvote_id):
+    current_post = Boasts.objects.get(id=downvote_id)
+    current_post.down_votes = current_post.down_votes - 1
+    current_post.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def addpost(request):

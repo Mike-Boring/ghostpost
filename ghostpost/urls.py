@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from homepage.views import index, sorted, boasts, roasts, addpost
+from homepage.views import index, sorted, boasts, roasts, addpost, upvote, downvote
 
 urlpatterns = [
     path('', index, name="homepage"),
     path('sorted/', sorted, name="sorted"),
     path('boasts/', boasts, name="boasts"),
     path('roasts/', roasts, name="roasts"),
+    path('upvote/<int:upvote_id>', upvote, name="upvote"),
+    path('downvote/<int:downvote_id>', downvote, name="downvote"),
     path('addpost/', addpost, name="addpost"),
     path('admin/', admin.site.urls),
 ]
