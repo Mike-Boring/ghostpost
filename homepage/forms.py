@@ -1,5 +1,5 @@
 from django import forms
-from homepage.models import Boasts
+from homepage.models import BoastsRoasts
 
 
 POST_CHOICES = [

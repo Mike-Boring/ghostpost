@@ -23,7 +23,7 @@ Page to submit a boast or a roast
 # Create your models here.
 
 
-class Boasts(models.Model):
+class BoastsRoasts(models.Model):
     boasts = models.BooleanField(default=True)
     post_text = models.CharField(max_length=240)
     up_votes = models.IntegerField(default=0)
